@@ -3,6 +3,10 @@ def redhat?
   os[:family] == 'redhat'
 end
 
+def windows?
+  os[:family] == 'windows'
+end
+
 def release?(test_version)
   os[:release] == test_version
 end
@@ -21,4 +25,8 @@ end
 
 def iptables?
   redhat? && os[:release].to_f < 7.0
+end
+
+def waf?
+  windows?
 end

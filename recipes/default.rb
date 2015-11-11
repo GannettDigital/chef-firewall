@@ -33,12 +33,23 @@ firewall_rule 'allow world to ssh' do
   only_if { linux? && node['firewall']['allow_ssh'] }
 end
 
+firewall_rule 'allow world to winrm standard' do
+  port 5985
+  source '0.0.0.0/0'
+  only_if { windows? && node['firewall']['allow_winrm'] }
+end
+
+firewall_rule 'allow world to winrm secure' do
+  port 5986
+  source '0.0.0.0/0'
+  only_if { windows? && node['firewall']['allow_winrm'] }
+end
+
 firewall_rule 'allow world to winrm' do
   port 5989
   source '0.0.0.0/0'
   only_if { windows? && node['firewall']['allow_winrm'] }
 end
-
 # allow established connections, ufw defaults to this but iptables does not
 firewall_rule 'established' do
   stateful [:related, :established]
