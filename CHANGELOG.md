@@ -2,6 +2,11 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
+v2.3.0 (2015-11-11)
+-------------------
+Fixed default winrm ports
+Added windows serverspec testing
+
 v2.2.0 (2015-11-02)
 -------------------
 Added permanent as default option for RHEL 7 based systems using firewall-cmd.
