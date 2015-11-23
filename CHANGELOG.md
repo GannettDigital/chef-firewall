@@ -1,6 +1,9 @@
 firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
+v2.3.1 (2015-11-23)
+-------------------
+Changing default attributes for ipv6 and ssh
 
 v2.3.0 (2015-11-11)
 -------------------
