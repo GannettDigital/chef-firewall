@@ -32,11 +32,6 @@ group :kitchen_cloud do
   gem 'kitchen-ec2'
 end
 
-group :integration do
-  gem 'serverspec'
-  gem 'kitchen-ec2'
-end
-
 group :development do
   gem 'growl'
   gem 'guard'
