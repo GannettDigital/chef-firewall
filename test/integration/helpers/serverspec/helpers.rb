@@ -3,10 +3,6 @@ def redhat?
   os[:family] == 'redhat'
 end
 
-def windows?
-  os[:family] == 'windows'
-end
-
 def release?(test_version)
   os[:release] == test_version
 end
@@ -27,6 +23,14 @@ def iptables?
   redhat? && os[:release].to_f < 7.0
 end
 
-def waf?
-  windows?
+def windows?
+  %w(windows).include?(os[:family])
+end
+
+def iptables_persistent?
+  ubuntu? && os[:release].to_f <= 14.04
+end
+
+def netfilter_persistent?
+  ubuntu? && os[:release].to_f > 14.04
 end
