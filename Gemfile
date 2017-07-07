@@ -1,29 +1,26 @@
 source 'https://rubygems.org'
 
 group :lint do
-  gem 'cookstyle', '~> 1.3'
-  gem 'foodcritic', '~> 10.3'
-  gem 'rubocop', '~> 0.47'
+  gem 'foodcritic', '~> 5.0'
+  gem 'rubocop', '~> 0.34'
 end
 
 group :unit do
-  gem 'berkshelf', '~> 5.6'
-  gem 'chef', '>= 13'
-  gem 'chef-sugar'
+  gem 'berkshelf', '~> 4.0'
   gem 'chefspec'
+  gem 'chef-sugar'
 end
 
 group :kitchen_windows do
-  gem 'winrm', '~> 2.0'
-  gem 'winrm-fs', '~> 1.0'
+  gem 'winrm-transport'
 end
 
 group :kitchen_common do
-  gem 'test-kitchen', '~> 1.16'
+  gem 'test-kitchen', '~> 1.4'
 end
 
 group :kitchen_vagrant do
-  gem 'kitchen-vagrant', '~> 1.1'
+  gem 'kitchen-vagrant', '~> 0.19'
   gem 'vagrant-wrapper'
 end
 
@@ -38,14 +35,13 @@ group :integration do
 end
 
 group :development do
+  gem 'ruby_gntp'
   gem 'growl'
+  gem 'rb-fsevent'
   gem 'guard'
-  gem 'guard-foodcritic'
   gem 'guard-kitchen'
+  gem 'guard-foodcritic'
   gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'rake', '~> 11.0'
-  gem 'rb-fsevent'
-  gem 'ruby_gntp'
-  gem 'stove'
+  gem 'rake'
 end

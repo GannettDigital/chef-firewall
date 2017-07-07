@@ -5,19 +5,12 @@ module FirewallCookbook
     end
 
     def port_to_s(p)
-      if p.is_a?(String)
-        p
-      elsif p && p.is_a?(Integer)
+      if p && p.is_a?(Integer)
         p.to_s
       elsif p && p.is_a?(Array)
-        p_strings = p.map { |o| port_to_s(o) }
-        p_strings.sort.join(',')
+        p.sort.join(',')
       elsif p && p.is_a?(Range)
-        if platform_family?('windows')
-          "#{p.first}-#{p.last}"
-        else
-          "#{p.first}:#{p.last}"
-        end
+        "#{p.first}:#{p.last}"
       end
     end
 
@@ -26,11 +19,8 @@ module FirewallCookbook
     end
 
     def disabled?(new_resource)
-      # if either flag is found in the non-default boolean state
-      disable_flag = !(new_resource.enabled && !new_resource.disabled)
-
-      Chef::Log.warn("#{new_resource} has been disabled, not proceeding") if disable_flag
-      disable_flag
+      Chef::Log.warn("#{new_resource} has attribute 'disabled' = true, not proceeding") if new_resource.disabled
+      new_resource.disabled
     end
 
     def ip_with_mask(new_resource, ip)
@@ -78,23 +68,10 @@ module FirewallCookbook
         contents << "# position #{sorted_value}"
         rules.each do |k, v|
           next unless v == sorted_value
-
-          contents << if repeatable_directives(k)
-                        k[/[^_]+/]
-                      else
-                        k
-                      end
+          contents << k
         end
       end
       "#{contents.join("\n")}\n"
-    end
-
-    def repeatable_directives(s)
-      %w(:OUTPUT :INPUT :POSTROUTING :PREROUTING COMMIT).each do |special|
-        return true if s.start_with?(special)
-      end
-
-      false
     end
   end
 end
