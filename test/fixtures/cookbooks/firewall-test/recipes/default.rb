@@ -1,10 +1,6 @@
 include_recipe 'chef-sugar'
 include_recipe 'firewall'
 
-firewall 'default' do
-  action :install
-end
-
 firewall_rule 'ssh22' do
   port 22
   command :allow
@@ -75,3 +71,46 @@ firewall_rule 'ipv6-source' do
   source '2001:db8::ff00:42:8329'
   command :allow
 end
+
+firewall_rule 'range' do
+  port 1000..1100
+  command :allow
+
+  # centos 5 is broken for ipv6 ranges
+  # see https://github.com/chef-cookbooks/firewall/pull/111#issuecomment-163520156
+  not_if { rhel? && node['platform_version'].to_f < 6.0 }
+end
+
+firewall_rule 'array' do
+  port [1234, 5000..5100, '5678']
+  command :allow
+
+  # centos 5 is broken for ipv6 ranges
+  # see https://github.com/chef-cookbooks/firewall/pull/111#issuecomment-163520156
+  not_if { rhel? && node['platform_version'].to_f < 6.0 }
+end
+
+firewall_rule 'ufw raw test' do
+  raw 'limit 23/tcp'
+  only_if { %w(ubuntu debian).include?(node['platform_family']) && !node['firewall']['ubuntu_iptables'] }
+end
+
+firewall_rule 'RPC Port Range In' do
+  port 5000..5100
+  protocol :tcp
+  command :allow
+  direction :in
+
+  # centos 5 is broken for ipv6 ranges
+  # see https://github.com/chef-cookbooks/firewall/pull/111#issuecomment-163520156
+  not_if { rhel? && node['platform_version'].to_f < 6.0 }
+end
+
+firewall_rule 'HTTP HTTPS' do
+  port [80, 443]
+  protocol :tcp
+  direction :out
+  command :allow
+end
+
+include_recipe 'firewall-test::windows' if windows?

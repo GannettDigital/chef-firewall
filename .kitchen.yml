@@ -3,27 +3,30 @@ driver:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: 13.0.118
   attributes:
     firewall:
       allow_ssh: true
       allow_winrm: true
+      allow_mosh: true
+      allow_loopback: true
+      allow_icmp: true
       firewalld:
         permanent: true
 
 platforms:
-  - name: centos-5.11
-  - name: centos-6.7
-  - name: centos-7.1
-  - name: debian-7.8
+  - name: centos-6.9
+  - name: centos-7.2
+  - name: debian-7.11
     run_list:
       - recipe[apt]
-  - name: debian-8.1
+  - name: debian-8.7
     run_list:
       - recipe[apt]
-  - name: ubuntu-12.04
+  - name: ubuntu-14.04
     run_list:
       - recipe[apt::default]
-  - name: ubuntu-14.04
+  - name: ubuntu-16.04
     run_list:
       - recipe[apt::default]
   - name: windows-2012r2
@@ -37,9 +40,9 @@ suites:
   - name: iptables
     excludes:
       - centos-5.11
-      - centos-6.7
-      - debian-7.8
-      - debian-8.1
+      - centos-6.9
+      - debian-7.11
+      - debian-8.7
       - windows-2012r2
     run_list:
       - recipe[firewall-test::default]
