@@ -2,12 +2,6 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
-<<<<<<< HEAD
-v2.3.0 (2015-11-11)
--------------------
-Fixed default winrm ports
-Added windows serverspec testing
-=======
 v2.6.2 (2017-06-01)
 -------------------
 * Incorrect file checking on Ubuntu, double file write (#173)
@@ -86,7 +80,6 @@ complicated recipes using firewall downstream. `disabled` is now deprecated.
 * Fix typo checking action instead of command in iptables helper (#112)
 
 * Remove testing ranges of ports on CentOS 5.x, as it's broken there.
->>>>>>> chef-cookbooks/master
 
 v2.2.0 (2015-11-02)
 -------------------
