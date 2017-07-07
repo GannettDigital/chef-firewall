@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: firewall
+# Cookbook:: firewall
 # Recipe:: default
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright:: 2011-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,6 +27,21 @@ end
 # create a variable to use as a condition on some rules that follow
 iptables_firewall = rhel? || node['firewall']['ubuntu_iptables']
 
+firewall_rule 'allow loopback' do
+  interface 'lo'
+  protocol :none
+  command :allow
+  only_if { linux? && node['firewall']['allow_loopback'] }
+end
+
+firewall_rule 'allow icmp' do
+  protocol :icmp
+  command :allow
+  # debian ufw doesn't allow 'icmp' protocol, but does open
+  # icmp by default, so we skip it in default recipe
+  only_if { (!debian? || iptables_firewall) && node['firewall']['allow_icmp'] }
+end
+
 firewall_rule 'allow world to ssh' do
   port 22
   source '0.0.0.0/0'
@@ -50,6 +65,17 @@ firewall_rule 'allow world to winrm' do
   source '0.0.0.0/0'
   only_if { windows? && node['firewall']['allow_winrm'] }
 end
+<<<<<<< HEAD
+=======
+
+firewall_rule 'allow world to mosh' do
+  protocol :udp
+  port 60000..61000
+  source '0.0.0.0/0'
+  only_if { linux? && node['firewall']['allow_mosh'] }
+end
+
+>>>>>>> chef-cookbooks/master
 # allow established connections, ufw defaults to this but iptables does not
 firewall_rule 'established' do
   stateful [:related, :established]

@@ -5,8 +5,12 @@ class Chef
     actions(:install, :restart, :disable, :flush, :save)
     default_action(:install)
 
+    # allow both kinds of logic -- eventually remove the :disabled one.
+    # the positive logic is much easier to follow.
     attribute(:disabled, kind_of: [TrueClass, FalseClass], default: false)
-    attribute(:log_level, kind_of: Symbol, equal_to: [:low, :medium, :high, :full], default: :low)
+    attribute(:enabled, kind_of: [TrueClass, FalseClass], default: true)
+
+    attribute(:log_level, kind_of: Symbol, equal_to: [:low, :medium, :high, :full, :off], default: :low)
     attribute(:rules, kind_of: Hash)
 
     # for firewalld, specify the zone when firewall is disable and enabled
@@ -15,5 +19,8 @@ class Chef
 
     # for firewall implementations where ipv6 can be skipped (currently iptables-specific)
     attribute(:ipv6_enabled, kind_of: [TrueClass, FalseClass], default: true)
+
+    # allow override of package options for firewalld package
+    attribute(:package_options, kind_of: String, default: nil)
   end
 end
